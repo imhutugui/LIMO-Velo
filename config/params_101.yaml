@@ -29,8 +29,8 @@ I_Rotation_L: [
 #    0.0026,-0.0018,-1.0000,
 #]
 # Delays
-empty_lidar_time: 0.1      # Should be at least [FULL_ROTATION_TIME]
-real_time_delay: 0.1       # Should be at least [FULL_ROTATION_TIME] (without a modificated LiDAR driver)
+empty_lidar_time: 0.05      # Should be at least [FULL_ROTATION_TIME]
+real_time_delay: 0.05       # Should be at least [FULL_ROTATION_TIME] (without a modificated LiDAR driver)
 
 # LiDAR
 LiDAR_type: velodyne       # Options: velodyne, hesai, ouster, custom
@@ -39,7 +39,7 @@ offset_beginning: false    # (Usual values: Velodyne = false, Ouster = true, HES
 LiDAR_noise: 0.001
 full_rotation_time: 0.1
 min_dist: 0.4                # Minimum distance: doesn't use points closer than this radius
-downsample_rate: 2         # Downsampling rate: results show that this one can be up to 32 and still work, try it if you need a speedup
+downsample_rate: 1         # Downsampling rate: results show that this one can be up to 32 and still work, try it if you need a speedup
 downsample_prec: 0.1       # Downsampling precision: Indoors, lower values (~0.2) work better. Outdoors, higher values (~0.5) lead to less degeneracy.
 
 # IMU

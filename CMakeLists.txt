@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(limovelo)
 
-SET(CMAKE_BUILD_TYPE "Release")
+SET(CMAKE_BUILD_TYPE "RelWithDebInfo")
 
 ADD_COMPILE_OPTIONS(-std=c++14 )
-ADD_COMPILE_OPTIONS(-std=c++14 )
-set( CMAKE_CXX_FLAGS "-std=c++14 -O3" )
 
 add_definitions(-DROOT_DIR=\"${CMAKE_CURRENT_SOURCE_DIR}/\")
 
@@ -46,6 +44,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  std_srvs
   pcl_ros
   tf
   message_generation
@@ -114,3 +113,8 @@ target_include_directories(limovelo
   PUBLIC include/IKFoM/ include/IKFoM/IKFoM_toolkit include/ikd-Tree/ikd_Tree
   PRIVATE ${PYTHON_INCLUDE_DIRS}
 )
+
+install( TARGETS limovelo
+         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
+install( DIRECTORY config launch
+         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )

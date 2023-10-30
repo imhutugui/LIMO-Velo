@@ -16,6 +16,7 @@ class Mapper {
         Mapper();
         bool exists();
         int size();
+        KD_TREE<Point>::Ptr getMap();
 
         void add(Points&, double time, bool downsample=false);        
         void add(const State&, Points&, bool downsample=false);        

@@ -155,6 +155,7 @@ extern struct Params Config;
             pcl::VoxelGrid<full_info::Point> filter;
             filter.setInputCloud(pcl_ptr);
             filter.setLeafSize(Config.downsample_prec, Config.downsample_prec, Config.downsample_prec);
+            filter.setMinimumPointsNumberPerVoxel(500);
             filter.filter(ds_pcl);
             
             Points ds_points;

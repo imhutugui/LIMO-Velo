@@ -10,10 +10,11 @@
 #include "Headers/Localizator.hpp"
 #include "Headers/Mapper.hpp"
 #endif
-
+#include <std_srvs/Trigger.h>
 Params Config;
 
 void fill_config(ros::NodeHandle& nh);
+bool save_pcd(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "limovelo");
@@ -39,6 +40,9 @@ int main(int argc, char** argv) {
         Config.imus_topic, 1000,
         &Accumulator::receive_imu, &accum
     );
+
+    ros::ServiceServer save_pcd_srv = nh.advertiseService(
+                "save_pcd", save_pcd);
 
     // Time variables
     double t1, t2;
@@ -173,4 +177,33 @@ void fill_config(ros::NodeHandle& nh) {
     nh.param<std::vector<float>>("initial_gravity", Config.initial_gravity, {0.0, 0.0, -9.807});
     nh.param<std::vector<float>>("I_Translation_L", Config.I_Translation_L, std::vector<float> (3, 0.));
     nh.param<std::vector<float>>("I_Rotation_L", Config.I_Rotation_L, std::vector<float> (9, 0.));
+}
+
+bool save_pcd(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
+{
+    KD_TREE<Point>::PointVector points;
+    auto& map = Mapper::getInstance();
+    if (map.getMap()->size() == 0){
+        res.success = false;
+        res.message = "map is empty";
+        std::cout << "map is empty." << endl;
+        return false;}
+    map.getMap()->flatten(map.getMap()->Root_Node, points, NOT_RECORD);
+    if (points.empty()) {
+        res.success = false;
+        res.message = "flattened map is empty";
+        std::cout << "flattened map is empty." << endl;
+        return false;}
+    pcl::PointCloud<pcl::PointXYZI> full_msg;
+    for (auto& p: points) {
+        pcl::PointXYZI fp;
+        fp.x = p.x;
+        fp.y = p.y;
+        fp.z = p.z;
+        fp.intensity = p.intensity;
+        full_msg.push_back(fp);
+    }
+    pcl::io::savePCDFileBinary("/home/south/dlio_map.pcd", full_msg);
+    res.success = true;
+    return true;
 }

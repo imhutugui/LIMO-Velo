@@ -33,6 +33,10 @@ extern struct Params Config;
             return this->map->size(); 
         }
 
+        KD_TREE<Point>::Ptr Mapper::getMap() {
+            return map;
+        }
+
         bool Mapper::exists() {
             return this->exists_tree();
         }

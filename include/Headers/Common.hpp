@@ -119,7 +119,7 @@ namespace velodyne_ros {
 namespace hesai_ros {
     struct Point {
         PCL_ADD_POINT4D
-        uint8_t intensity;
+        float intensity;
         double timestamp;
         uint16_t ring;
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
@@ -176,7 +176,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(hesai_ros::Point,
     (float, x, x)
     (float, y, y)
     (float, z, z)
-    (std::uint8_t, intensity, intensity)
+    (float, intensity, intensity)
     (double, timestamp, timestamp)
     (std::uint16_t, ring, ring)
 )
